@@ -18,7 +18,7 @@ async def on_member_join(member):
     if member.guild.id == 923357625138155541:
         em = discord.Embed(title= "Welcome " + member.display_name + "!", description=f"Welcome to the Relaxed side of Discord, **" + member.display_name + "**! \n Dont forget to check out:\n" + member.guild.get_channel(923357625633099808).mention + "\n" + member.guild.get_channel(923362097746817025).mention + "\n" + member.guild.get_channel(923362875219796091).mention +"\n", color=discord.Colour.purple())
 
-        em.set_thumbnail(url='https://raw.githubusercontent.com/Downtown-Bot-Developement/Downtown-Bot/main/img/server-icon.gif?token=ARDS46KJCRYRC46RD4FQAE3BYXEFC')
+        em.set_thumbnail(url='http://bot.relaxed-downtown.com/img/server-icon.gif')
         em.set_footer(text="Tip: Use /welcome or right click the new member's name, go to apps, and click on welcome to welcome them to the server!")
 
         channel = bot.get_channel(923362875219796091)
