@@ -28,14 +28,14 @@ async def on_member_join(member):
 
 @bot.slash_command(guild_ids=[923357625138155541])
 async def welcome(ctx, member: discord.Member):
-    await ctx.send(f'{ctx.author.mention} welcomes {member.mention} to {ctx.guild.name}!')
+    await ctx.respond(f'{ctx.author.mention} welcomes {member.mention} to {ctx.guild.name}!')
 
 @bot.slash_command(guild_ids=[923357625138155541])
 async def hi(ctx):
     button = Button(label="click me!", style=discord.ButtonStyle.green, emoji="⚒️")
     view = View()
     view.add_item(button)
-    await ctx.send("hi", view=view)
+    await ctx.respond("hi", view=view)
 
 load_dotenv(".env")
 bot.run(environ.get("TOKEN"))
