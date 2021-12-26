@@ -28,6 +28,7 @@ async def on_member_join(member):
 
 @bot.slash_command(guild_ids=[923357625138155541])
 async def welcome(ctx, member: discord.Member):
+    '''Welcomes a member to the server!'''
     await ctx.respond(f'{ctx.author.mention} welcomes {member.mention} to {ctx.guild.name}!')
 
 @bot.slash_command(guild_ids=[923357625138155541])
