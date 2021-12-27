@@ -3,11 +3,16 @@ from discord.ui import Button, View
 from discord.ext import commands
 from dotenv import load_dotenv
 from os import environ
+import os
 
 intents = discord.Intents.default()
 intents.members = True
 
 bot = commands.Bot(command_prefix=".", description="description", intents=intents)
+
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f'cogs.{filename[:-3]}')
 
 @bot.event
 async def on_ready():
