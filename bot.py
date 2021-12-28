@@ -21,18 +21,6 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    # downtown development test server
-    if member.guild.id == 923357625138155541:
-        em = discord.Embed(title= "Welcome " + member.display_name + "!", description=f"Welcome to the Relaxed side of Discord, **" + member.display_name + "**! \n Dont forget to check out:\n" + member.guild.get_channel(923357625633099808).mention + "\n" + member.guild.get_channel(923362097746817025).mention + "\n" + member.guild.get_channel(923362875219796091).mention +"\n", color=discord.Colour.purple())
-
-        em.set_thumbnail(url='http://bot.relaxed-downtown.com/img/server-icon.gif')
-        em.set_footer(text="Tip: Use /welcome or right click the new member's name, go to apps, and click on welcome to welcome them to the server!")
-
-        channel = bot.get_channel(923362875219796091)
-
-        await channel.send(f"{member.mention}")
-        await channel.send(embed=em)
-    # relaxed downtown
     if member.guild.id == 771797312581402674:
         em = discord.Embed(title= "Welcome " + member.display_name + "!", description=f"Welcome to the Relaxed side of Discord, **" + member.display_name + "**! \n Dont forget to check out:\n" + member.guild.get_channel(806194833852858378).mention + "\n" + member.guild.get_channel(818131977122480148).mention + "\n" + member.guild.get_channel(818964691945652246).mention +"\n", color=discord.Colour.purple())
         em.set_thumbnail(url='http://bot.relaxed-downtown.com/img/server-icon.gif')
@@ -46,7 +34,7 @@ async def on_member_join(member):
     else:
         return
 
-@bot.slash_command(guild_ids=[923357625138155541, 771797312581402674])
+@bot.slash_command(guild_ids=[771797312581402674])
 async def welcome(ctx, member: discord.Member):
     '''Welcomes a member to the server!'''
     await ctx.respond(f'{ctx.author.mention} welcomes {member.mention} to {ctx.guild.name}!')
