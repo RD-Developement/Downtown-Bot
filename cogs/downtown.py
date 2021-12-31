@@ -19,8 +19,6 @@ class Downtown(commands.Cog):
             # await after.send('```Hey! You! Yeah You! 😎\n\nLets go you just reached the VIP Status on Relaxed Downtown! 💜 \nAnd Yes we have some Premium features on Relaxed Downtown for VIP users: \n \n-Hidden VIP Chats ⭐ (You can find the VIP category under the Minigames category) \n \n-You can now request a nickname! (The text channel for that can be found in the Support category) 🦋\n \n-Question Of The Day :question: (Can be found in the Off-Topic Category) \n \n-Color Roles (can be found in the category User info) ```')
             await after.send(embed=em)
             await after.add_roles(completed_all_levels)
-
-
-
+            
 def setup(bot):
     bot.add_cog(Downtown(bot))

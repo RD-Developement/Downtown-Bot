@@ -22,29 +22,25 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     if member.guild.id == 771797312581402674:
+        channel = bot.get_channel(824363941966250046)
         em = discord.Embed(title= "Welcome " + member.display_name + "!", description=f"Welcome to the Relaxed side of Discord, **" + member.display_name + "**! \n Dont forget to check out:\n" + member.guild.get_channel(806194833852858378).mention + "\n" + member.guild.get_channel(818131977122480148).mention + "\n" + member.guild.get_channel(818964691945652246).mention +"\n", color=discord.Colour.purple())
         em.set_thumbnail(url='http://bot.relaxed-downtown.com/img/server-icon.gif')
         em.set_footer(text="Tip: Use /welcome to welcome them to the server!")
 
-        channel = bot.get_channel(824363941966250046)
+        welcomeButton = Button(label="Welcome Member", style=discord.ButtonStyle.green)
+        
+        async def welcomeButton_callback(interaction):
+            user = interaction.user
+            await interaction.response.send_message(f'{user.mention} welcomes {member.mention} to {user.guild.name}!')
 
+        welcomeButton.callback = welcomeButton_callback
+
+        view=View()
+        view.add_item(welcomeButton)
         await channel.send(f"{member.mention}")
-        await channel.send(embed=em)
-    
+        await channel.send(embed=em, view=view)
     else:
         return
-
-@bot.slash_command(guild_ids=[771797312581402674])
-async def welcome(ctx, member: discord.Member):
-    '''Welcomes a member to the server!'''
-    await ctx.respond(f'{ctx.author.mention} welcomes {member.mention} to {ctx.guild.name}!')
-
-# @bot.slash_command(guild_ids=[923357625138155541])
-# async def hi(ctx):
-#     button = Button(label="click me!", style=discord.ButtonStyle.green, emoji="⚒️")
-#     view = View()
-#     view.add_item(button)
-#     await ctx.respond("hi", view=view)
-
+        
 load_dotenv(".env")
 bot.run(environ.get("TOKEN"))
