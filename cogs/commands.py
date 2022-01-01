@@ -22,7 +22,7 @@ class Commands(commands.Cog):
             await ctx.respond("The chat has been revived!", ephemeral=True)
             await ctx.send(f"{revive.mention} The chat's dead, come back and revive it!")
         else:
-            em=discord.Embed(title=f"{ctx.author.display_name}'s Topic Is", description=f'{topic}', color=discord.Colour.blurple())
+            em=discord.Embed(title=f"{ctx.author.display_name}'s Topic Is", description=f'{topic}', color=discord.Colour.purple())
             em.set_thumbnail(url="https://bot.relaxed-downtown.com/img/bot-icon.png")
             em.timestamp=datetime.datetime.utcnow()
             em.set_footer(text="Downtown Bot", icon_url="https://bot.relaxed-downtown.com/img/bot-icon.png")

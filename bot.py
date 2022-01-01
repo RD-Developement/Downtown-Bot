@@ -30,6 +30,10 @@ class WelcomeButton(View):
 async def on_member_join(member):
     if member.guild.id == 771797312581402674:
         channel = bot.get_channel(824363941966250046)
+        member_role = member.guild.get_role(795096734303780935)
+        special_role = member.guild.get_role(819644879796699196)
+        level_role = member.guild.get_role(819640864669696060)
+
         em = discord.Embed(title= "Welcome " + member.display_name + "!", description=f"Welcome to the Relaxed side of Discord, **" + member.display_name + "**! \n Dont forget to check out:\n" + member.guild.get_channel(806194833852858378).mention + "\n" + member.guild.get_channel(818131977122480148).mention + "\n" + member.guild.get_channel(818964691945652246).mention +"\n", color=discord.Colour.purple())
         em.set_thumbnail(url='http://bot.relaxed-downtown.com/img/server-icon.gif')
         em.timestamp=datetime.datetime.utcnow()
@@ -37,6 +41,9 @@ async def on_member_join(member):
         
         view=WelcomeButton()
         await channel.send(content=f"{member.mention}", embed=em, view=view)
+        await member.add_roles(member_role)
+        await member.add_roles(special_role)
+        await member.add_roles(member_role)
     else:
         return
         
