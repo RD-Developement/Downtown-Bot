@@ -14,7 +14,6 @@ class Commands(commands.Cog):
         await ctx.respond(f'{ctx.author.mention} welcomes {member.mention} to {ctx.guild.name}!')
 
     @slash_command(guild_ids=[771797312581402674])
-    @commands.has_permissions(manage_messages=True)
     async def revive(self, ctx, topic=None):
         '''Revives the chat every 30 minutes'''
         if topic == None:
@@ -24,7 +23,6 @@ class Commands(commands.Cog):
         else:
             em=discord.Embed(title=f"{ctx.author.display_name}'s Topic Is", description=f'{topic}', color=discord.Colour.purple())
             em.set_thumbnail(url="https://bot.relaxed-downtown.com/img/bot-icon.png")
-            em.timestamp=datetime.datetime.utcnow()
             em.set_footer(text="Downtown Bot", icon_url="https://bot.relaxed-downtown.com/img/bot-icon.png")
             revive = discord.utils.get(ctx.guild.roles, id=831686382698102844)
             await ctx.send(f"{revive.mention}")

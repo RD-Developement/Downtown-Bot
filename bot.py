@@ -36,7 +36,6 @@ async def on_member_join(member):
 
         em = discord.Embed(title= "Welcome " + member.display_name + "!", description=f"Welcome to the Relaxed side of Discord, **" + member.display_name + "**! \n Dont forget to check out:\n" + member.guild.get_channel(806194833852858378).mention + "\n" + member.guild.get_channel(818131977122480148).mention + "\n" + member.guild.get_channel(818964691945652246).mention +"\n", color=discord.Colour.purple())
         em.set_thumbnail(url='http://bot.relaxed-downtown.com/img/server-icon.gif')
-        em.timestamp=datetime.datetime.utcnow()
         em.set_footer(text="Downtown Bot", icon_url="https://bot.relaxed-downtown.com/img/bot-icon.png")
         
         view=WelcomeButton()
