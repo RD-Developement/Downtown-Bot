@@ -14,7 +14,6 @@ class Commands(commands.Cog):
         await ctx.respond(f'{ctx.author.mention} welcomes {member.mention} to {ctx.guild.name}!')
 
     @slash_command(guild_ids=[771797312581402674])
-    @commands.has_permissions(manage_messages=True)
     async def revive(self, ctx, topic=None):
         '''Revives the chat every 30 minutes'''
         if topic == None:
