@@ -1,68 +1,79 @@
-from discord.commands import slash_command
-from discord.ext import commands
 import discord
-from discord.commands import permissions
-import datetime 
-from discord.utils import get
-from discord.ui import Button, View
+from discord.commands.commands import slash_command
+from discord.ext import commands
 
-class Gangs(commands.Cog):
+role_ids = [818238905249300500, 818239347789660170, 818240008401846283, 819343555126231050, 830452184805539890, 827631001031147530, 819562061490028634]
+
+class RoleButton(discord.ui.Button):
+    def __init__(self, role: discord.Role):
+
+        super().__init__(
+            label=role.name,
+            style=discord.enums.ButtonStyle.primary,
+            custom_id=str(role.id),
+        )
+
+    async def callback(self, interaction: discord.Interaction):
+
+
+        # figure out who clicked the button
+        user = interaction.user
+        # get the role this button is for (stored in the custom ID)
+        role = interaction.guild.get_role(int(self.custom_id))
+
+        if role is None:
+            # if this role doesn't exist, ignore
+            # you can do some error handling here
+            return
+
+        # passed all checks
+        # add the role and send a response to the uesr ephemerally (hidden to other users)
+        if role not in user.roles:
+            # give the user the role if they don't already have it
+            await user.add_roles(role)
+            await interaction.response.send_message(
+                f"✅ You have been given the role {role.mention}", ephemeral=True
+            )
+        else:
+            # else, take the role from the user
+            await user.remove_roles(role)
+            await interaction.response.send_message(
+                f"❌ The {role.mention} role has been taken from you", ephemeral=True
+            )
+
+
+class rrGangs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @slash_command(guild_ids=[771797312581402674])
-    @permissions.permission(user_id=721341252649353256, permission=True)
-    async def gangs(self, ctx):
-        pcGangButton = Button(label="PC Gang", style=discord.ButtonStyle.blurple, emoji="<:pcgang:926869314877923359>")
-        psGangButton = Button(label="PS4 Gang", style=discord.ButtonStyle.blurple, emoji="<:psicon:926870430340485212>")
-        xbGangButton = Button(label="Xbox Gang", style=discord.ButtonStyle.blurple, emoji="<:xboxicon:926870769957470299>")
-        swGangButton = Button(label="Switch Gang", style=discord.ButtonStyle.blurple, emoji="<:switchicon:926871101659807744>")
+    # make sure to set the guild ID here to whatever server you want the buttons in
+    @slash_command(guild_ids=[771797312581402674], description="Post the button role message")
+    async def post(self, ctx: commands.Context):
+        """A slash command to post a new view with a button for each role"""
 
-        async def pcCallback(self, interaction):
-            user = interaction.user
-            role = interaction.guild.get_role(818164649198878730)
+        view = discord.ui.View(timeout=None)
 
-            if role is None:
-                return
+        for role_id in role_ids:
+            role = ctx.guild.get_role(role_id)
+            view.add_item(RoleButton(role))
 
-            if role not in user.roles:
-                await user.add_roles(role)
-                await interaction.response.send_message(
-                    f"✅ You have been given the role {role.mention}", ephemeral=True)
-            else:
-                await user.remove_roles(role)
-                await interaction.response.send_message(
-                    f"❌ The {role.mention} role has been taken from you", ephemeral=True)        
-            
-            # async def psCallback(self, interaction: discord.Interaction):
-            #     user = interaction.user
-            #     role = interaction.guild.get_role(818164649198878730)
+        await ctx.respond("Click a button to assign yourself a role", view=view)
 
-            #     if role is None:
-            #         return
+    @commands.Cog.listener()
+    async def on_ready(self):
+        """This function is called every time the bot restarts.
+        If a view was already created before (with the same custom IDs for buttons)
+        it will be loaded and the bot will start watching for button clicks again.
+        """
+        # we recreate the view as we did in the /post command
+        view = discord.ui.View(timeout=None)
+        # make sure to set the guild ID here to whatever server you want the buttons in
+        guild = self.bot.get_guild(...)
+        for role_id in role_ids:
+            role = guild.get_role(role_id)
+            view.add_item(RoleButton(role))
 
-            #     if role not in user.roles:
-            #         await user.add_roles(role)
-            #         await interaction.response.send_message(
-            #             f"✅ You have been given the role {role.mention}", ephemeral=True)
-            #     else:
-            #         await user.remove_roles(role)
-            #         await interaction.response.send_message(
-            #             f"❌ The {role.mention} role has been taken from you", ephemeral=True)
-
-        pcGangButton.callback = pcCallback
-
-        view=View()
-        view.add_item(pcGangButton)
-        view.add_item(psGangButton)
-        view.add_item(xbGangButton)
-        view.add_item(swGangButton)
-        
-        em=discord.Embed(title="Gangs", description="<:pcgang:926869314877923359> ➜ PC Gang\n <:psicon:926870430340485212> ➜ PS Gang\n <:xboxicon:926870769957470299> ➜ XBOX Gang\n <:switchicon:926871101659807744> ➜ Switch Gang", color=discord.Colour.purple())
-        em.set_thumbnail(url="https://bot.relaxed-downtown.com/img/bot-icon.png")
-        em.set_footer(text="Downtown Bot", icon_url="https://bot.relaxed-downtown.com/img/bot-icon.png")
-
-        await ctx.respond(embed=em, view=view)
-
+        # add the view to the bot so it will watch for button interactions
+        self.bot.add_view(view)
 def setup(bot):
-    bot.add_cog(Gangs(bot))
+    bot.add_cog(rrGangs(bot))
